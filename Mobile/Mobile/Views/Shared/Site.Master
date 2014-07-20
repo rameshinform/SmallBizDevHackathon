@@ -1,0 +1,59 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head runat="server">
+        <meta charset="utf-8" />
+        <title>QMED</title>
+        <meta name="viewport" content="width=device-width" />
+        <link href="<%: Url.Content("~/favicon.ico") %>" rel="shortcut icon" type="image/x-icon" />
+        <%: Styles.Render("~/Content/mobileCss", "~/Content/css") %>
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </head>
+    <body>
+        <div data-role="page" data-theme="d">
+            <div data-role="header"  data-theme="c">
+                <asp:ContentPlaceHolder ID="Header" runat="server">
+                    <%--<h1><asp:ContentPlaceHolder ID="TitleContent" runat="server">QMED </asp:ContentPlaceHolder></h1>--%>
+                <% if (Request.IsAuthenticated) { %>
+    <%: Html.ActionLink(Page.User.Identity.Name, "Index", "Account", routeValues: null, htmlAttributes: new { data_icon = "check" ,@class="ui-btn-right"}) %>
+<% } else { %>
+    <%--<%: Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { data_icon = "gear" }) %>--%>
+<% } %>
+                    
+
+	<span class="ui-title"><asp:ContentPlaceHolder ID="TitleContent" runat="server">QMED </asp:ContentPlaceHolder></span>
+                    <%--<% Html.RenderPartial("LoginUserControl"); %>--%>
+                   
+                </asp:ContentPlaceHolder>
+            </div>
+            <div data-role="content">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+            </div>
+             <div data-role="footer" data-position="fixed"   data-theme="c">
+        <div data-role="navbar">
+            <ul>
+                <li>  <%: Html.ActionLink("Home", "Index", "Home", routeValues: null, htmlAttributes: new { data_icon = "home" }) %></li>
+                <li> <%: Html.ActionLink("Settings", "AccountSettings", "Account", routeValues: null, htmlAttributes: new { data_icon = "gear" }) %></li>
+                  <li><%: Html.ActionLink("Analytics", "AnalyticsPie", "Home", routeValues: null, htmlAttributes: new { data_icon = "grid" }) %></li>
+                <li><%: Html.ActionLink("About", "About", "Home", routeValues: null, htmlAttributes: new { data_icon = "star" }) %></li>
+                <li> <% if (Request.IsAuthenticated) { %>
+    <%: Html.ActionLink("Exit", "LogOff", "Account", routeValues: null, htmlAttributes: new { data_icon = "forward" }) %>
+<% } else { %>
+    <%: Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { data_icon = "gear" }) %>
+<% } %></li>
+            </ul>
+        </div><!-- /navbar -->
+</div><!-- /footer -->
+        </div>
+
+        <%: Scripts.Render("~/bundles/jquery") %>
+        <script>
+            $(document).on("mobileinit", function () {
+                $.mobile.ajaxEnabled = false;
+            });
+        </script>
+        <%: Scripts.Render("~/bundles/jquerymobile") %>
+        <asp:ContentPlaceHolder ID="ScriptsSection" runat="server" />
+    </body>
+</html>
